@@ -5,6 +5,7 @@ import { Comment } from "@ant-design/compatible";
 import { defaultAva } from "../res";
 import { useQuery } from "react-query";
 import CommentService from "../services/CommentService";
+import { useNavigate } from "react-router-dom";
 
 const { Text, Title, Paragraph } = Typography;
 
@@ -16,6 +17,7 @@ type PostCardProps = {
 function PostCard(props: PostCardProps) {
   const { post, user } = props;
   const [showComment, setShowComment] = useState(false);
+  const navigate = useNavigate();
 
   const fetchCommentsQuery = useQuery({
     queryKey: ["comment", post.id],
@@ -25,7 +27,15 @@ function PostCard(props: PostCardProps) {
 
   return (
     <div className="flex flex-col justify-center items-center w-[90%] border-2 p-2 mb-2 rounded-md">
-      <Title level={2}>{post.title}</Title>
+      <Title
+        level={2}
+        className="cursor-pointer"
+        onClick={() => {
+          navigate(`post/${post.id}`);
+        }}
+      >
+        {post.title}
+      </Title>
       <div className="flex w-[100%] flex-row justify-between items-center">
         <div className="flex flex-1 flex-col">
           <Text strong={true}>Author: {user.name}</Text>

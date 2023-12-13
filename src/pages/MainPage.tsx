@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import PostCard from "../components/PostCard";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchPost, fetchPostInPage } from "../redux/postSlicer";
 import { taskPostSelector, taskUserSelector } from "../redux/selector";
 import { AppDispatch } from "../redux/store";
-import { fetchUser } from "../redux/userSlicer";
+import { fetchUsers } from "../redux/slices/userSlicer";
 import { Input, Pagination, Spin } from "antd";
 import { PaginationProps } from "antd/lib";
+import { fetchPosts, fetchPostsInPage } from "../redux/slices/postSlicer";
 
 function MainPage() {
   const dispatch = useDispatch<AppDispatch>();
@@ -20,16 +20,16 @@ function MainPage() {
   };
 
   useEffect(() => {
-    dispatch(fetchUser());
+    dispatch(fetchUsers());
   }, []);
 
   useEffect(() => {
-    dispatch(fetchPost(search));
-    dispatch(fetchPostInPage({ page, search }));
+    dispatch(fetchPosts(search));
+    dispatch(fetchPostsInPage({ page, search }));
   }, [search]);
 
   useEffect(() => {
-    dispatch(fetchPostInPage({ page, search }));
+    dispatch(fetchPostsInPage({ page, search }));
   }, [page]);
 
   return (
